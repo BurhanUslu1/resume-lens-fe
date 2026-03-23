@@ -5,6 +5,7 @@ import { UserInfo } from "@/types/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
+
 export function useUser() {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
