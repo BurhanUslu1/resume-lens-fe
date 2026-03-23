@@ -1,0 +1,42 @@
+import { AnalysisHistoryResponse } from '@/types/analysis';
+import { BaseResponse } from '@/types/responses';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7071/api';
+
+export class UserService {
+    private static instance: UserService;
+
+    private constructor() { }
+
+    public static getInstance(): UserService {
+        if (!UserService.instance) {
+            UserService.instance = new UserService();
+        }
+        return UserService.instance;
+    }
+
+    public async getAnalysisHistory(accessToken: string, userToken: string, page: number = 1, pageSize: number = 10): Promise<BaseResponse<AnalysisHistoryResponse>> {
+        try {
+            const response = await fetch(`${API_BASE_URL}/analysis-history?page=${page}&pageSize=${pageSize}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'userToken': `userToken ${userToken}`
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching analysis history:', error);
+            throw error;
+        }
+    }
+}
+
+export const userService = UserService.getInstance(); 
