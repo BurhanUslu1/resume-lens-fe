@@ -13,6 +13,7 @@ interface LoginRequest {
     password: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const registerResponseSchema = validator.object({
     user: validator.object({
         userEmail: validator.string().email(),
@@ -38,7 +39,7 @@ export const register = async (data: RegisterRequest): Promise<BaseResponse<Auth
         const responseData = await response.json() as BaseResponse<AuthResponse> | BaseResponse<null>;
 
         return responseData
-    } catch (error) {
+    } catch (_error) {
         return {
             success: false,
             statusCode: 500,
@@ -62,7 +63,7 @@ export const login = async (data: LoginRequest): Promise<BaseResponse<AuthRespon
         const responseData = await response.json() as BaseResponse<AuthResponse> | BaseResponse<null>;
 
         return responseData;
-    } catch (error) {
+    } catch (_error) {
         return {
             success: false,
             statusCode: 500,

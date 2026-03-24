@@ -25,7 +25,7 @@ function VerifyEmailContent() {
                 </h1>
 
                 <p className="text-gray-500 mb-2">
-                    We've sent a verification link to
+                    We&apos;ve sent a verification link to
                 </p>
                 {email && (
                     <p className="text-indigo-600 font-semibold mb-6">
@@ -40,7 +40,7 @@ function VerifyEmailContent() {
                 {/* Divider */}
                 <div className="border-t border-gray-200 pt-6">
                     <p className="text-sm text-gray-500 mb-1">
-                        Didn't receive an email?
+                        Didn&apos;t receive an email?
                     </p>
                     <p className="text-sm text-gray-400">
                         Check your spam folder, or{" "}

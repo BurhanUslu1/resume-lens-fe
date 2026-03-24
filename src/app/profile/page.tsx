@@ -26,14 +26,6 @@ function FieldError({ message }: { message?: string }) {
     return <p className="text-sm text-red-500 mt-1">{message}</p>;
 }
 
-function StatCard({ label, value }: { label: string; value: string | number }) {
-    return (
-        <div className="bg-gray-50 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600">{value}</p>
-            <p className="text-sm text-gray-500 mt-1">{label}</p>
-        </div>
-    );
-}
 
 export default function ProfilePage() {
     const { user, isLoading, accessToken, userToken, refetch } = useUser();

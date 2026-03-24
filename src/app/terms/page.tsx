@@ -108,7 +108,7 @@ export default function TermsOfService() {
                         </p>
                         <p className="mt-3">
                             We reserve the right to change pricing at any time. Existing subscribers will be given at
-                            least 30 days' notice before any price increase takes effect. You may cancel your subscription
+                            least 30 days&apos; notice before any price increase takes effect. You may cancel your subscription
                             at any time; access continues until the end of your current billing period.
                         </p>
                         <p className="mt-3">

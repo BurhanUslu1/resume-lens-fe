@@ -46,6 +46,17 @@ export function useUser() {
         fetchUserInfo();
     }, [fetchUserInfo, pathname]);
 
+    // Log out automatically when any API call returns 401 (token expired)
+    useEffect(() => {
+        const handleUnauthorized = () => {
+            logout();
+        };
+        window.addEventListener('auth:unauthorized', handleUnauthorized);
+        return () => {
+            window.removeEventListener('auth:unauthorized', handleUnauthorized);
+        };
+    }, [logout]);
+
     return {
         user: userInfo,
         accessToken,

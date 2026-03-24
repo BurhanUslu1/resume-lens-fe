@@ -168,7 +168,7 @@ export default function Dashboard() {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-gray-900">Contact Support</h3>
-                                        <p className="text-gray-600 mt-1">Have a question or feedback? We'd love to hear from you.</p>
+                                        <p className="text-gray-600 mt-1">Have a question or feedback? We&apos;d love to hear from you.</p>
                                     </div>
                                 </div>
                             </CardContent>

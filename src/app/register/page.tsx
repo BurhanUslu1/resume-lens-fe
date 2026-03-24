@@ -67,7 +67,7 @@ export default function RegisterPage() {
         setSubmitting(true);
         try {
             // Don't send confirmPassword to the backend
-            const { confirmPassword: _, ...payload } = data;
+            const { confirmPassword: _confirmPassword, ...payload } = data;
             const response = await register(payload);
 
             if (response.success && response.data) {
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                     toast.error(response.errors ?? 'Registration failed. Please try again.');
                 }
             }
-        } catch (error) {
+        } catch (_error) {
             toast.error("An unexpected error occurred during registration");
         } finally {
             setSubmitting(false);

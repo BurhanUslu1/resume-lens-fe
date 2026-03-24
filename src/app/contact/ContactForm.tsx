@@ -1,5 +1,6 @@
 'use client'
 
+import React from "react";
 import { Clock, Mail, MessageSquare, Loader2, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -56,7 +57,7 @@ export default function ContactForm() {
             <section className="bg-indigo-600 text-white py-16 px-6 text-center">
                 <h1 className="text-4xl font-bold mb-4">Get in touch</h1>
                 <p className="text-indigo-100 text-lg max-w-xl mx-auto">
-                    Have a question, suggestion, or just want to say hello? We'd love to hear from you.
+                    Have a question, suggestion, or just want to say hello? We&apos;d love to hear from you.
                 </p>
             </section>
 
@@ -71,7 +72,7 @@ export default function ContactForm() {
                             </div>
                             <h2 className="text-xl font-bold text-gray-900 mb-2">Message sent!</h2>
                             <p className="text-gray-500 text-sm">
-                                Thanks for reaching out. We'll get back to you within 24 hours.
+                                Thanks for reaching out. We&apos;ll get back to you within 24 hours.
                             </p>
                         </div>
                     ) : (
@@ -165,7 +166,7 @@ export default function ContactForm() {
                     <div>
                         <h2 className="text-xl font-bold text-gray-900 mb-4">Other ways to reach us</h2>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            We're a small team and we read every message. You can also reach us directly by email.
+                            We&apos;re a small team and we read every message. You can also reach us directly by email.
                         </p>
                     </div>
 

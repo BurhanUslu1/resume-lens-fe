@@ -98,7 +98,7 @@ export default function PrivacyPolicy() {
                         <h2 className="text-xl font-bold text-gray-900 mb-3">5. Third parties we share data with</h2>
                         <p>We share your data only with the following trusted third-party services, which are necessary to operate ResumeLens:</p>
                         <ul className="mt-3 space-y-2 list-disc list-inside text-gray-600">
-                            <li><strong>OpenAI</strong> — CV and job description text is sent to OpenAI's API to generate analysis results. OpenAI processes this data under their API data usage policy and does not use API inputs to train their models by default.</li>
+                            <li><strong>OpenAI</strong> — CV and job description text is sent to OpenAI&apos;s API to generate analysis results. OpenAI processes this data under their API data usage policy and does not use API inputs to train their models by default.</li>
                             <li><strong>Microsoft Azure</strong> — your data is stored securely in Azure Storage (UK region). Azure is certified under ISO 27001 and complies with UK GDPR.</li>
                             <li><strong>Auth0 (Okta)</strong> — manages account authentication and stores your login credentials securely.</li>
                         </ul>

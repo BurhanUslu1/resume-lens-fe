@@ -1,5 +1,6 @@
 import { AnalysisHistoryResponse } from '@/types/analysis';
 import { BaseResponse } from '@/types/responses';
+import { apiClient } from '@/utils/apiClient';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7071/api';
 
@@ -17,7 +18,7 @@ export class UserService {
 
     public async getAnalysisHistory(accessToken: string, userToken: string, page: number = 1, pageSize: number = 10): Promise<BaseResponse<AnalysisHistoryResponse>> {
         try {
-            const response = await fetch(`${API_BASE_URL}/analysis-history?page=${page}&pageSize=${pageSize}`, {
+            const response = await apiClient(`${API_BASE_URL}/analysis-history?page=${page}&pageSize=${pageSize}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

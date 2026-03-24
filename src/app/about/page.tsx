@@ -133,7 +133,7 @@ export default function AboutPage() {
                 <div className="max-w-3xl mx-auto text-center">
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">Why we built this</h2>
                     <p className="text-lg text-gray-600 leading-relaxed mb-4">
-                        Most job applications never get seen by a human. Applicant Tracking Systems (ATS) automatically filter CVs before a recruiter even opens them — often rejecting strong candidates simply because the wording doesn't match the job description closely enough.
+                        Most job applications never get seen by a human. Applicant Tracking Systems (ATS) automatically filter CVs before a recruiter even opens them — often rejecting strong candidates simply because the wording doesn&apos;t match the job description closely enough.
                     </p>
                     <p className="text-lg text-gray-600 leading-relaxed">
                         AI Resume Matcher was built to level the playing field. We give every job seeker the same insight that professional CV writers charge hundreds of pounds for — instantly, and for free.

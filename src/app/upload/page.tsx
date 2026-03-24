@@ -6,14 +6,7 @@ import { uploadResume } from "@/services/uploadCv";
 import React, { useState } from "react";
 
 export default function UploadPage() {
-    const [file, setFile] = useState<File | null>(null);
-    const [jobDescription, setJobDescription] = useState("");
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            setFile(event.target.files[0]);
-        }
-    };
+    const [file, _setFile] = useState<File | null>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

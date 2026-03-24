@@ -212,7 +212,7 @@ export default function Pricing() {
                 <div className="max-w-2xl mx-auto px-6 text-center">
                     <h2 className="text-3xl font-bold text-gray-900 mb-3">Interested in Pro?</h2>
                     <p className="text-gray-600 mb-6">
-                        Pro is in active development. Leave your email and we'll notify you the moment it launches — early users get a discounted rate.
+                        Pro is in active development. Leave your email and we&apos;ll notify you the moment it launches — early users get a discounted rate.
                     </p>
                     <Link
                         href="/contact"
@@ -225,7 +225,7 @@ export default function Pricing() {
 
             {/* Feature comparison callout */}
             <section className="max-w-5xl mx-auto px-6 py-16">
-                <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">What's inside Pro?</h2>
+                <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">What&apos;s inside Pro?</h2>
                 <div className="grid md:grid-cols-3 gap-6">
                     {[
                         {

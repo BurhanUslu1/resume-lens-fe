@@ -1,4 +1,5 @@
 import { BaseResponse, MatchResponseInterface } from "@/types/responses";
+import { apiClient } from "@/utils/apiClient";
 
 export const checkJobScore = async (file: File, jobDescription: string): Promise<BaseResponse<MatchResponseInterface>> => {
     const formData = new FormData();
@@ -20,7 +21,7 @@ export async function checkRegisteredUserScore(file: File, jobDescription: strin
     formData.append('file', file);
     formData.append('jobDescription', jobDescription);
 
-    const response = await fetch('http://localhost:7071/api/checkRegisteredUserScore', {
+    const response = await apiClient('http://localhost:7071/api/checkRegisteredUserScore', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${accessToken}`,

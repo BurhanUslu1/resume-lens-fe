@@ -8,7 +8,7 @@ import { Textarea } from "@/components/Ui/base/textarea";
 import { useUser } from "@/hooks/useUser";
 import { checkJobScore } from "@/services/matchJobDescription";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowRight, FileText, GitCompare, Lightbulb, Loader2, Upload, Zap } from "lucide-react";
+import { ArrowRight, FileText, GitCompare, Lightbulb, Loader2, Upload } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -67,7 +67,7 @@ export default function Home() {
   // Show validation errors as toasts
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
-      Object.entries(errors).forEach(([_field, error]) => {
+      Object.values(errors).forEach((error) => {
         if (error?.message) {
           toast.error(error.message);
         }
