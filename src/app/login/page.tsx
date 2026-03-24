@@ -8,7 +8,7 @@ import { login } from "@/services/auth";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as validator from "zod";
@@ -25,7 +25,7 @@ function FieldError({ message }: { message?: string }) {
     return <p className="text-sm text-red-500 mt-1">{message}</p>;
 }
 
-export default function LoginPage() {
+function LoginContent() {
     const [mounted, setMounted] = useState(false);
     const [isSubmitting, setSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -78,9 +78,7 @@ export default function LoginPage() {
         }
     };
 
-    if (!mounted) {
-        return null;
-    }
+    if (!mounted) return null;
 
     return (
         <div className="min-h-screen bg-gray-50 flex">
@@ -173,4 +171,12 @@ export default function LoginPage() {
             </div>
         </div>
     );
-} 
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense>
+            <LoginContent />
+        </Suspense>
+    );
+}
