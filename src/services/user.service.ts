@@ -1,8 +1,7 @@
+import API_BASE_URL from '@/config/api';
 import { AnalysisHistoryResponse } from '@/types/analysis';
 import { BaseResponse } from '@/types/responses';
 import { apiClient } from '@/utils/apiClient';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7071/api';
 
 export class UserService {
     private static instance: UserService;

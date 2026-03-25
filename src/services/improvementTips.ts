@@ -1,7 +1,6 @@
+import API_BASE_URL from "@/config/api";
 import { BaseResponse, ImprovementTipsResponseData } from "@/types/responses";
 import { apiClient } from "@/utils/apiClient";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7071/api';
 
 export async function getImprovementTips(
     file: File,
@@ -17,7 +16,7 @@ export async function getImprovementTips(
     formData.append('file', file);
     formData.append('jobDescription', jobDescription);
 
-    const response = await apiClient(`${API_BASE}/improvement-tips`, {
+    const response = await apiClient(`${API_BASE_URL}/improvement-tips`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${accessToken}`,

@@ -1,7 +1,6 @@
+import API_BASE_URL from "@/config/api";
 import { BaseResponse, CompareJobsResponseData } from "@/types/responses";
 import { apiClient } from "@/utils/apiClient";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7071/api';
 
 export async function compareJobs(
     file: File,
@@ -17,7 +16,7 @@ export async function compareJobs(
     formData.append('file', file);
     formData.append('jobDescriptions', JSON.stringify(jobDescriptions));
 
-    const response = await apiClient(`${API_BASE}/compare-jobs`, {
+    const response = await apiClient(`${API_BASE_URL}/compare-jobs`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${accessToken}`,
