@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config, { dev }) => {
     // Enable hot reloading
     if (dev) {
       config.watchOptions = {
