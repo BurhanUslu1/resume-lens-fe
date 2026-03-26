@@ -1,5 +1,6 @@
 import { BaseResponse } from "@/types/responses";
 import * as validator from "zod";
+import API_BASE_URL from "@/config/api";
 
 interface RegisterRequest {
     name: string;
@@ -28,7 +29,7 @@ type AuthResponse = validator.infer<typeof registerResponseSchema>;
 
 export const register = async (data: RegisterRequest): Promise<BaseResponse<AuthResponse | null>> => {
     try {
-        const response = await fetch("http://localhost:7071/api/register", {
+        const response = await fetch(`${API_BASE_URL}/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +53,7 @@ export const register = async (data: RegisterRequest): Promise<BaseResponse<Auth
 
 export const login = async (data: LoginRequest): Promise<BaseResponse<AuthResponse | null>> => {
     try {
-        const response = await fetch("http://localhost:7071/api/login", {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

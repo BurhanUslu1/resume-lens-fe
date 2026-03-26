@@ -3,6 +3,7 @@
 import React from "react";
 import { Clock, Mail, MessageSquare, Loader2, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import API_BASE_URL from "@/config/api";
 import { toast } from "sonner";
 
 export default function ContactForm() {
@@ -24,8 +25,7 @@ export default function ContactForm() {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7071/api';
-            const response = await fetch(`${API_BASE}/contact`, {
+            const response = await fetch(`${API_BASE_URL}/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
