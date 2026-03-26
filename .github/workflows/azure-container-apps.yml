@@ -1,0 +1,139 @@
+name: Azure Container Apps CI/CD
+
+# ──────────────────────────────────────────────────────────────
+# Triggers
+# ──────────────────────────────────────────────────────────────
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - dev
+
+# ──────────────────────────────────────────────────────────────
+# Workflow-level environment variables
+# Change these values to match your Azure resource names
+# ──────────────────────────────────────────────────────────────
+env:
+  ACR_NAME: resumelensacr                    # Azure Container Registry name (no .azurecr.io)
+  RESOURCE_GROUP: resumelens-dev-rg          # Azure Resource Group
+  CONTAINER_APP_NAME: ca-resumelens-fe       # Azure Container App name
+  CONTAINER_APP_ENV: cae-resumelens          # Azure Container Apps Environment name
+  IMAGE_NAME: resumelens-fe                  # Docker image name
+
+# Required for OIDC authentication with Azure (no long-lived secrets)
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # ────────────────────────────────────────────────────────────
+  # Job 1: Lint
+  # ────────────────────────────────────────────────────────────
+  lint:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: Lint
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+  # ────────────────────────────────────────────────────────────
+  # Job 2: Build Docker image and push to ACR
+  # Runs on push to dev only (not on PRs — PRs only lint)
+  # ────────────────────────────────────────────────────────────
+  build-and-push:
+    needs: lint
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    name: Build and Push to ACR
+
+    outputs:
+      image_tag: ${{ steps.meta.outputs.image_tag }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Authenticate to Azure using OIDC (no client secret needed)
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Log in to Azure Container Registry
+      - name: Log in to ACR
+        run: az acr login --name ${{ env.ACR_NAME }}
+
+      # Generate image tag from git SHA (short, unique, traceable)
+      - name: Set image tag
+        id: meta
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "image_tag=${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "Image tag: ${SHORT_SHA}"
+
+      # Build the Docker image
+      # NEXT_PUBLIC_API_URL is baked into the client bundle at build time
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }} \
+            -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest \
+            .
+
+      # Push both the versioned and latest tags to ACR
+      - name: Push to ACR
+        run: |
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.image_tag }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+
+  # ────────────────────────────────────────────────────────────
+  # Job 3: Deploy to Azure Container Apps
+  # ────────────────────────────────────────────────────────────
+  deploy:
+    needs: build-and-push
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    name: Deploy to Container Apps
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Update the Container App to use the newly pushed image
+      - name: Deploy to Azure Container Apps
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          resourceGroup: ${{ env.RESOURCE_GROUP }}
+          containerAppName: ${{ env.CONTAINER_APP_NAME }}
+          imageToDeploy: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}
+
+      - name: Print deployment URL
+        run: |
+          URL=$(az containerapp show \
+            --name ${{ env.CONTAINER_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --query "properties.configuration.ingress.fqdn" \
+            --output tsv)
+          echo "✅ Deployed to: https://${URL}"
